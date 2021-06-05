@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, make_response
+from config import get_config
 
 app = Flask(__name__)
 
