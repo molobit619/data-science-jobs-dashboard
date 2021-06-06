@@ -9,3 +9,5 @@ def get_config():
             key_dict = json.load(keys_file)
     else:
         print(f"Could not find {keys_json_path}")
+
+    return key_dict
