@@ -4,6 +4,7 @@ import credentials as creds
 from flask import Flask
 
 # Set up a connection to the postgres server.
+# Add your password in credentials.py first.
 conn_string = "host=" + creds.PGHOST + " port=" + "5432" + " dbname=" + creds.PGDATABASE + " user=" + creds.PGUSER \
     + " password=" + creds.PGPASSWORD
 conn = psycopg2.connect(conn_string)
