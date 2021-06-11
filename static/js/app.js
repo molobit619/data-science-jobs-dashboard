@@ -17,8 +17,8 @@ d3.json("/api/data-science/load-data").then(data => {
 
     d3.select('#totals_by_industry')
         .attr("src", "/api/data-science/job-openings/totals_by_industry.png")
-        .style("width", "25em")
-        .style("height", "20em");
+        .style("width", "60em")
+        .style("height", "50em");
 
     d3.xml("/api/data-science/job-openings/average_salary.png").then(console.log);
 
