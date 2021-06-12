@@ -118,8 +118,11 @@ def job_openings_totals_by_position():
             .order_by(job_count_totals.desc()) \
             .all()
 
-    res = make_response(jsonify(results), 200)
-    return res
+    #res = make_response(jsonify(results), 200)
+    #print(results)
+    res= [[x,y]for[x,y]in results]
+    return jsonify(res)
+    
 
 @app.route("/api/data-science/job-openings/totals_by_location")
 def job_openings_totals_by_location():
@@ -137,8 +140,10 @@ def job_openings_totals_by_location():
             .order_by(job_count_totals.desc()) \
             .all()
 
-    res = make_response(jsonify(results), 200)
-    return res
+    #res = make_response(jsonify(results), 200)
+    #return results
+    res= [[x,y]for[x,y]in results]
+    return jsonify(res)
 
 @app.route("/api/data-science/job-openings/totals_by_industry.png")
 def job_openings_totals_by_industry_png():

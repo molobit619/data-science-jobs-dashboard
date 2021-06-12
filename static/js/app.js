@@ -6,7 +6,8 @@ d3.json("/api/data-science/load-data").then(data => {
         console.log(data);
         d3.select('#jobs_by_position')
             .append('table')
-            .selectAll('tbody')
+            .append('tbody')
+            .selectAll('tr')
             .data(data)
             .enter()
             .append('tr')
