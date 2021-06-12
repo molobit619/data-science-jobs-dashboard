@@ -1,13 +1,13 @@
 body {
-    margin: 0px;
+  margin: 0px;
 }
 
 #container {
-    height: 100vh;
+  height: 100vh;
 }
 
 .chart-container {
-    padding-left: .75em;
-    padding-right: .75em;
-    padding-bottom: .75em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  padding-bottom: 0.75em;
 }
