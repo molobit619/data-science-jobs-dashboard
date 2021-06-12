@@ -48,6 +48,22 @@ def get_jobs_tbl(engine):
     return Jobs
 
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+    # title, nav bar, introduction, purpose, resources,
+
+
+@app.route("/industries")
+def industries():
+    return render_template("industries.html")
+
+
+@app.route("/salaries")
+def avgsalary():
+    return render_template("avgsalary.html")
+
+
 @app.route("/api/data-science/load-data")
 def load_data():
     """
@@ -119,10 +135,10 @@ def job_openings_totals_by_position():
             .all()
 
     #res = make_response(jsonify(results), 200)
-    #print(results)
-    res= [[x,y]for[x,y]in results]
+    # print(results)
+    res = [[x, y]for[x, y] in results]
     return jsonify(res)
-    
+
 
 @app.route("/api/data-science/job-openings/totals_by_location")
 def job_openings_totals_by_location():
@@ -141,9 +157,10 @@ def job_openings_totals_by_location():
             .all()
 
     #res = make_response(jsonify(results), 200)
-    #return results
-    res= [[x,y]for[x,y]in results]
+    # return results
+    res = [[x, y]for[x, y] in results]
     return jsonify(res)
+
 
 @app.route("/api/data-science/job-openings/totals_by_industry.png")
 def job_openings_totals_by_industry_png():
@@ -170,7 +187,7 @@ def job_openings_totals_by_industry_png():
     # Create circle bar for job posting count for each industry
     # https://www.python-graph-gallery.com/circular-barplot-basic
 
-    fig = Figure(figsize=(12,10))
+    fig = Figure(figsize=(12, 10))
 
     ax = fig.add_subplot(111, polar=True)
     ax.axis('off')
@@ -209,7 +226,7 @@ def job_openings_totals_by_industry_png():
     )
 
     # Add labels
-    for bar, angle, height, label in zip(bars,angles, heights, industry_df["industry"]):
+    for bar, angle, height, label in zip(bars, angles, heights, industry_df["industry"]):
 
         # Labels are rotated. Rotation must be specified in degrees :(
         rotation = np.rad2deg(angle)
@@ -239,6 +256,7 @@ def job_openings_totals_by_industry_png():
     canvas.print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
 
+
 @app.route("/api/data-science/job-openings/average_salary.png")
 def job_openings_average_salary_png():
     # get sqlalchemy engine
@@ -255,23 +273,20 @@ def job_openings_average_salary_png():
         statement = session.query(Jobs).statement
         jobs_df = pd.read_sql(statement, session.bind)
 
-    #TODO: implement salary graph
+    # TODO: implement salary graph
     return make_response(jobs_df.to_html(), 200)
+
 
 @app.route("/api/data-science/highest-demand")
 def highest_demand():
     res = make_response(jsonify({"highest-demand": 30}), 200)
     return res
 
+
 @app.route("/api/data-science/average-salary")
 def average_salary():
     res = make_response(jsonify({"average-salary": 40}), 200)
     return res
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 
 if __name__ == "__main__":
