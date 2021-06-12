@@ -65,7 +65,6 @@ def avgsalary():
     return render_template("avgsalary.html")
 
 
-@app.route("/api/data-science/load-data")
 def load_data():
     """
     This endpoint loads the csv data into the table `data_science_jobs`.`jobs`
@@ -102,7 +101,6 @@ def load_data():
     # get sqlalchemy engine
     engine = get_db_engine()
 
-    res = None
     with engine.connect() as con:
         jobs_df.to_sql('jobs', con, if_exists='replace',
                        method='multi', index_label='id')
@@ -113,10 +111,7 @@ def load_data():
         total_job_entries = {}
         for row in result:
             total_job_entries = dict(row)
-
-        res = make_response(jsonify(total_job_entries), 200)
-
-    return res
+        print(total_job_entries)
 
 
 @app.route("/api/data-science/job-openings/totals_by_position")
@@ -291,4 +286,5 @@ def average_salary():
 
 
 if __name__ == "__main__":
+    load_data()
     app.run(debug=True)
