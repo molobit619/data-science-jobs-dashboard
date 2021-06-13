@@ -52,6 +52,9 @@ def get_jobs_tbl(engine):
 def index():
     return render_template("index.html")
 
+@app.route("/location")
+def locations():
+    return render_template("locations.html")
 
 @app.route("/industries")
 def industries():
