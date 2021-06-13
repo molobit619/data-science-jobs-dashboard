@@ -54,6 +54,9 @@ def index():
     # title, nav bar, introduction, purpose, resources
     # can include small pictures of the static charts as an introduction, make use of them.
 
+@app.route("/location")
+def locations():
+    return render_template("locations.html")
 
 @app.route("/industries")
 def industries():
