@@ -64,6 +64,9 @@ def industries():
 def avgsalary():
     return render_template("avgsalary.html")
 
+@app.route("/skills")
+def skills():
+    return render_template("skills.html")
 
 @app.route("/api/data-science/load-data")
 def load_data():
@@ -118,6 +121,67 @@ def load_data():
 
     return res
 
+@app.route("/api/data-science/skills/totals_by_technology")
+def skills_totals_by_tech():
+    # get sqlalchemy engine
+    engine = get_db_engine()
+
+    # get reflected Job table
+    Jobs = get_jobs_tbl(engine)
+
+    #aggregate totals for each skell
+    python_sum = func.sum(Jobs.columns.python)
+    excel_sum = func.sum(Jobs.columns.excel)
+    hadoop_sum = func.sum(Jobs.columns.hadoop)
+    spark_sum = func.sum(Jobs.columns.spark)
+    aws_sum = func.sum(Jobs.columns.aws)
+
+    with engine.connect() as con:
+        session = Session(con)
+        result = session.query(python_sum, excel_sum, hadoop_sum, spark_sum, aws_sum) \
+            .first()
+
+    totals_by_tech_df = pd.DataFrame([float(entry) for entry in result])
+    totals_by_tech_df = totals_by_tech_df.transpose()
+
+    #assign columns to dataframe
+    totals_by_tech_df.columns = ['python', 'excel', 'hadoop', 'spark', 'aws']
+
+    return make_response(jsonify(totals_by_tech_df.to_dict(orient='split')))
+
+@app.route("/api/data-science/skills/top_positions_by_tech/<tech>")
+def skills_top_ten_by_tech(tech):
+    # get sqlalchemy engine
+    engine = get_db_engine()
+
+    # get reflected Job table
+    Jobs = get_jobs_tbl(engine)
+
+    filters = {
+        'python': Jobs.columns.python,
+        'excel':  Jobs.columns.excel,
+        'hadoop': Jobs.columns.hadoop,
+        'spark':  Jobs.columns.spark,
+        'aws':    Jobs.columns.aws
+    }
+
+    active_tech_filter = None
+
+    try:
+        active_tech_filter = filters[tech]
+    except KeyError as err:
+        pass
+
+    print(active_tech_filter)
+    with engine.connect() as con:
+        session = Session(con)
+        statement = session.query(Jobs.columns.job_title, Jobs.columns.salary_estimate, Jobs.columns.rating, Jobs.columns.company_name, Jobs.columns.location) \
+            .filter(active_tech_filter == 1 ) \
+            .statement
+
+        results_df = pd.read_sql(statement, session.bind)
+
+    return make_response(jsonify(results_df.to_dict(orient='split')))
 
 @app.route("/api/data-science/job-openings/totals_by_position")
 def job_openings_totals_by_position():

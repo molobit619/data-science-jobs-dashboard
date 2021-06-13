@@ -1,0 +1,24 @@
+.bar {
+    fill: var(--bs-blue);
+}
+
+.bar:hover {
+    fill: var(--bs-indigo);
+}
+
+.active {
+  fill: var(--bs-indigo);
+}
+
+.chart-container {
+    padding-left: .75em;
+}
+
+#summary {
+  display: none;
+}
+
+#positions-table {
+    max-height: calc(100vh - 300px);
+    overflow: scroll;
+}
