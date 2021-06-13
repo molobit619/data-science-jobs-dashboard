@@ -51,8 +51,6 @@ def get_jobs_tbl(engine):
 @app.route("/")
 def index():
     return render_template("index.html")
-    # title, nav bar, introduction, purpose, resources
-    # can include small pictures of the static charts as an introduction, make use of them.
 
 
 @app.route("/industries")
