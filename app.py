@@ -51,9 +51,10 @@ def get_jobs_tbl(engine):
 @app.route("/")
 def index():
     return render_template("index.html")
-    # title, nav bar, introduction, purpose, resources
-    # can include small pictures of the static charts as an introduction, make use of them.
 
+@app.route("/location")
+def locations():
+    return render_template("locations.html")
 
 @app.route("/industries")
 def industries():
@@ -68,7 +69,6 @@ def avgsalary():
 def skills():
     return render_template("skills.html")
 
-@app.route("/api/data-science/load-data")
 def load_data():
     """
     This endpoint loads the csv data into the table `data_science_jobs`.`jobs`
@@ -105,7 +105,6 @@ def load_data():
     # get sqlalchemy engine
     engine = get_db_engine()
 
-    res = None
     with engine.connect() as con:
         jobs_df.to_sql('jobs', con, if_exists='replace',
                        method='multi', index_label='id')
@@ -116,10 +115,7 @@ def load_data():
         total_job_entries = {}
         for row in result:
             total_job_entries = dict(row)
-
-        res = make_response(jsonify(total_job_entries), 200)
-
-    return res
+        print(total_job_entries)
 
 @app.route("/api/data-science/skills/totals_by_technology")
 def skills_totals_by_tech():
@@ -355,4 +351,5 @@ def average_salary():
 
 
 if __name__ == "__main__":
+    load_data()
     app.run(debug=True)

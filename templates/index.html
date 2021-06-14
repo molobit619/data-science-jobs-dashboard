@@ -8,6 +8,8 @@
         <title>Data Science Jobs Dashboard</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.1/dist/litera/bootstrap.min.css" integrity="sha256-42ZuSmBHRnvUPztoivDb63B+cnETA18lljSgDbaGmgw=" crossorigin="anonymous">
         <link rel="stylesheet" href="/static/css/style.css">
+        <!-- load jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     </head>
 
     <body>
@@ -17,7 +19,8 @@
             </div><center>
                 <br><div><h5>By: Everardo Maya, Hallie Lam, and Brittany Whitaker</h5></div><br><br><br>
                 <div><h3>Welcome! <br>The purpose of this project is to describe the prevalence of data science jobs posted on Glassdoor. <br>
-                    We hope our data analysis can be helpful to you and provide you insight based on the questions we covered. <br>
+                    The data was scraped in early 2021.<br>
+                    We hope our data analysis can be helpful to you and provide insight based on the questions we covered. <br>
                     Click below to see our findings!
                     <br></h2></div><br>
             <div><h3>
@@ -29,11 +32,28 @@
                 <p><h5>Resources:</h5>
                     <h6><a href="https://github.com/molobit619/data-science-jobs-dashboard">Github</a><br>
                         <a href="https://www.kaggle.com/rashikrahmanpritom/data-science-job-posting-on-glassdoor?select=Cleaned_DS_Jobs.csv">Dataset</a><br>
-                        <a href="https://www.python-graph-gallery.com/circular-barplot-basic">Bar plot</a>
-
-
+                        <a href="https://www.python-graph-gallery.com/circular-barplot-basic">Bar plot</a><br>
+                        <a href="https://jquery.com/">jQuery</a>
                 </h6></p>
             </div>
+                <!-- jQuery -->
+                <script> 
+                    $("a")
+                      .on( "mouseenter", function() {
+                        $(this).css({
+                          "background-color": "yellow",
+                          "color": "red"                  
+                        });
+                      })
+                      .on( "mouseleave", function() {
+                        var styles = {
+                          backgroundColor : "",
+                          color: ""
+                        };
+                        $(this).css(styles);
+                      });
+                    </script>
+            <!-- end of jQuery script -->
         </div>
     	<script src="https://d3js.org/d3.v5.min.js"></script>
     </body>
