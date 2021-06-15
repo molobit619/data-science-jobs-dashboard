@@ -1,31 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Data Science Jobs Dashboard</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.1/dist/litera/bootstrap.min.css" integrity="sha256-42ZuSmBHRnvUPztoivDb63B+cnETA18lljSgDbaGmgw=" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/css/style.css">
-    </head>
-
-    <body>
-        <div id="container" class="container-fluid bg-light"><br>
-            <div class="jumbotron text-center bg-primary">
-                <h1 class="text-light">What industries have the highest demand for data scientists?</h1>
-            </div><center>
-            <!-- <div class="chart-container row gap-2">
-                <div class="col border border-1 m-e-2">&nbsp;</div> -->
-                <div class="col"><img id="totals_by_industry" alt=""></div>
-            <br><br><a href="/">Back</a><br><br>
-            <!-- <div class="row chart-container">
-                <div class="col border border-1"> -->
-                    <!-- <div id="jobs_by_position"> -->
-                    <!-- </div> -->
-                <!-- </div> -->
-            </div>
+{% extends "layout.html"%}
+{%block title%}Industry Data{%endblock%}
+{%block content%}
+    <div class="jumbotron text-center bg-primary">
+        <h1 class="text-light">What industries have the highest demand for data scientists?</h1>
+    </div>
+    <div>
+        <div class="row">
+            <div class="col">&nbsp;</div>
+            <div class="col"><img id="totals_by_industry" alt=""></div>
+            <div class="col">&nbsp;</div>
         </div>
-		<script src="https://d3js.org/d3.v5.min.js"></script>
-        <script src="/static/js/industries_app.js"></script>
-    </body>
-</html>
+    </div>
+{%endblock%}
+
+{%block js%}
+    <script src="/static/js/industries_app.js"></script>
+{%endblock%}
