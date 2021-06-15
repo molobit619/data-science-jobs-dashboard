@@ -1,23 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Average Salary by State</title>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.1/dist/litera/bootstrap.min.css" integrity="sha256-42ZuSmBHRnvUPztoivDb63B+cnETA18lljSgDbaGmgw=" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/css/style.css">
-	</head>
-	<body><center>
-		<div id="container" class="container-fluid bg-light"><br>
-            <div class="jumbotron text-center bg-primary">
-                <h1 class="text-light">What is the average salary by state?</h1>
-            </div>
+{% extends "layout.html"%}
+{%block title%}Average Salary Data{%endblock%}
+{%block content%}
+    <div class="jumbotron text-center bg-primary">
+        <h1 class="text-light">What is the average salary by state?</h1>
+    </div>
+    <div class="row">
+        <div class="col">&nbsp;</div>
+        <div class="col">
+            <div id="hld3"></div><br>
+            <p style="font-size: 20px; color: blue; font-weight: bold;">North Carolina and DC lead in average salary at $149k. California is ranked number 18 at $119k.
+            Minnesota is lowest at $93k.</p>
+        </div>
+        <div class="col">&nbsp;</div>
+    </div>
+{%endblock%}
 
-    <div id="hld3"></div><br>
-	<p style="font-size: 20px; color: blue; font-weight: bold;">North Carolina and DC lead in average salary at $149k. California is ranked number 18 at $119k.
-	Minnesota is lowest at $93k.</p>
-	<a href="/">Back</a><br><br>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-		<script type="text/javascript" src="static/js/avgsalary_app.js"></script>
-	</center>
-  </body>
-</html>
+{%block js%}
+    <script type="text/javascript" src="static/js/avgsalary_app.js"></script>
+{%endblock%}
