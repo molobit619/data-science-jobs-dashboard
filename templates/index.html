@@ -1,64 +1,72 @@
-           
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Data Science Jobs Dashboard</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.0.1/dist/litera/bootstrap.min.css" integrity="sha256-42ZuSmBHRnvUPztoivDb63B+cnETA18lljSgDbaGmgw=" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/css/style.css">
-        <!-- load jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    </head>
-
-    <body>
-        <div id="container" class="container-fluid bg-light"><br>
-            <div class="jumbotron text-center bg-primary">
-                <h1 class="text-light">Data Science Jobs</h1>
-            </div><center>
-          
-                <div><h3>Welcome! <br><br> The purpose of this project is to describe the prevalence of data science jobs posted on Glassdoor. The data was scraped in early 2021 & represents data from 2020. <br><br>
-                    We hope our data analysis can be helpful to you and provide insight based on the questions we covered. Click below to see our findings!
-                    <br></h2></div><br>
-            <div><h3>
-                    <a href="/location">Which locations have the most data science job postings?</a><br><br>
-                    <a href="/industries">Which industries have the highest demand for data scientists?</a><br><br>
-                    <a href="/skills">What are the desirable skills?</a><br><br>
-                    <a href="/salaries">What is the average salary by state?</a><br>
-                </ul></h3><br>
-                <p><h5>Resources:</h5>
-                    <h6><a href="https://github.com/molobit619/data-science-jobs-dashboard">Github</a><br>
-                        <a href="https://www.kaggle.com/rashikrahmanpritom/data-science-job-posting-on-glassdoor?select=Cleaned_DS_Jobs.csv">Dataset</a><br>
-                        <a href="https://www.python-graph-gallery.com/circular-barplot-basic">Bar plot</a><br>
-                        <a href="https://jquery.com/">jQuery</a>
-                </h6></p>
+{% extends "layout.html"%}
+{%block title%}Data Science Jobs{%endblock%}
+{%block content%}
+    <div class="jumbotron text-center">
+        <h1 class="display-3">Data Science Jobs</h1>
+    </div>
+    <div class="row">
+        <div class="col-1">&nbsp;</div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h1>Welcome!<p class="lead lh-lg">The <strong>purpose</strong> of this project is to describe the prevalence of data science jobs posted on Glassdoor. The data was <mark>scraped in early 2021 &amp; represents data from 2020</mark>.
+                        We hope our data analysis can be helpful to you and provide insight based on the questions we covered. Click below to see our findings!
+                        </p>
+                    </h1>
+                </div>
             </div>
-                <!-- jQuery -->
-                <script> 
-                    $("a")
-                      .on( "mouseenter", function() {
-                        $(this).css({
 
-                          "color": "blue"                  
-                        });
-                      })
-                      .on( "mouseleave", function() {
-                        var styles = {
-                          backgroundColor : "",
-                          color: ""
-                        };
-                        $(this).css(styles);
-                      });
-                    </script>
-            <!-- end of jQuery script -->
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col-6">
+                            <ul>
+                                <a href="/location">Which locations have the most data science job postings?</a><br><br>
+                                <a href="/industries">Which industries have the highest demand for data scientists?</a><br><br>
+                                <a href="/skills">What are the desirable skills?</a><br><br>
+                                <a href="/salaries">What is the average salary by state?</a><br>
+                            </ul>
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5>Resources:</h5>
+                                    <ul class="list-group">
+                                        <li class="list-group-item"><a href="https://github.com/molobit619/data-science-jobs-dashboard">Github</a></li>
+                                        <li class="list-group-item"><a href="https://www.kaggle.com/rashikrahmanpritom/data-science-job-posting-on-glassdoor?select=Cleaned_DS_Jobs.csv">Dataset</a></li>
+                                        <li class="list-group-item"><a href="https://www.python-graph-gallery.com/circular-barplot-basic">Bar plot</a></li>
+                                        <li class="list-group-item"><a href="https://jquery.com/">jQuery</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <img src="/api/data-science/skills/totals_by_technology.png" class="img-fluid" alt="some random image">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="col-1">&nbsp;</div>
+    </div>
+{%endblock%}
 
-      <footer id="footer" class="footer footer-expand-md text-center">
-          <p> © Everardo Maya, Hallie Lam, Brittany Whitaker</p>
-      </footer>
-
-    	<script src="https://d3js.org/d3.v5.min.js"></script>
-
-    </body>
-</html>
+{%block js%}
+    <!-- load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script> 
+        $(document).ready(function() {
+            $("a")
+              .on( "mouseenter", function() {
+                $(this).css({
+                  "color": "blue"
+                });
+              })
+              .on( "mouseleave", function() {
+                var styles = {
+                  backgroundColor : "",
+                  color: ""
+                };
+                $(this).css(styles);
+              });
+        });
+    </script>
+{%endblock%}

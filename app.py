@@ -7,6 +7,7 @@ from config import get_config
 import numpy as np
 from pprint import pprint
 from matplotlib.figure import Figure
+from matplotlib import cm
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 import random
 import io
@@ -25,6 +26,32 @@ JOBS_TBL = 'jobs'
 # variables
 
 # helper functions
+def get_skills_totals_by_tech_df():
+    # get sqlalchemy engine
+    engine = get_db_engine()
+
+    # get reflected Job table
+    Jobs = get_jobs_tbl(engine)
+
+    #aggregate totals for each skell
+    python_sum = func.sum(Jobs.columns.python)
+    excel_sum = func.sum(Jobs.columns.excel)
+    hadoop_sum = func.sum(Jobs.columns.hadoop)
+    spark_sum = func.sum(Jobs.columns.spark)
+    aws_sum = func.sum(Jobs.columns.aws)
+
+    with engine.connect() as con:
+        session = Session(con)
+        result = session.query(python_sum, excel_sum, hadoop_sum, spark_sum, aws_sum) \
+            .first()
+
+    totals_by_tech_df = pd.DataFrame([float(entry) for entry in result])
+    totals_by_tech_df = totals_by_tech_df.transpose()
+
+    #assign columns to dataframe
+    totals_by_tech_df.columns = ['python', 'excel', 'hadoop', 'spark', 'aws']
+
+    return totals_by_tech_df
 
 
 def get_db_engine():
@@ -119,31 +146,39 @@ def load_data():
 
 @app.route("/api/data-science/skills/totals_by_technology")
 def skills_totals_by_tech():
-    # get sqlalchemy engine
-    engine = get_db_engine()
-
-    # get reflected Job table
-    Jobs = get_jobs_tbl(engine)
-
-    #aggregate totals for each skell
-    python_sum = func.sum(Jobs.columns.python)
-    excel_sum = func.sum(Jobs.columns.excel)
-    hadoop_sum = func.sum(Jobs.columns.hadoop)
-    spark_sum = func.sum(Jobs.columns.spark)
-    aws_sum = func.sum(Jobs.columns.aws)
-
-    with engine.connect() as con:
-        session = Session(con)
-        result = session.query(python_sum, excel_sum, hadoop_sum, spark_sum, aws_sum) \
-            .first()
-
-    totals_by_tech_df = pd.DataFrame([float(entry) for entry in result])
-    totals_by_tech_df = totals_by_tech_df.transpose()
-
-    #assign columns to dataframe
-    totals_by_tech_df.columns = ['python', 'excel', 'hadoop', 'spark', 'aws']
-
+    totals_by_tech_df = get_skills_totals_by_tech_df()
     return make_response(jsonify(totals_by_tech_df.to_dict(orient='split')))
+
+@app.route("/api/data-science/skills/totals_by_technology.png")
+def skills_totals_by_tech_png():
+    totals_by_tech_df = get_skills_totals_by_tech_df()
+    totals_by_tech_df = totals_by_tech_df.transpose() \
+            .reset_index() \
+            .rename(columns={'index': 'skill', 0: 'postings'})
+
+    # Create bar chart for skills
+    # https://www.machinelearningplus.com/plots/top-50-matplotlib-visualizations-the-master-plots-python/
+
+    all_colors = list(cm.colors.cnames.keys())
+    random.seed(100)
+    c = random.choices(all_colors, k=7)
+
+    # Plot Bars
+    fig = Figure(figsize=(10,6))
+    ax = fig.add_subplot(111)
+
+    ax.bar(totals_by_tech_df.skill, totals_by_tech_df.postings, color=c, width=.5)
+    for i, val in enumerate(totals_by_tech_df.postings.values):
+        ax.text(i, val, float(val), horizontalalignment='center', verticalalignment='bottom', fontdict={'fontweight':400, 'size':12})
+
+    ax.title.set_text("Desirable Skills")
+
+    # capture image output
+    output = io.BytesIO()
+
+    canvas = FigureCanvasAgg(fig)
+    canvas.print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 @app.route("/api/data-science/skills/top_positions_by_tech/<tech>")
 def skills_top_ten_by_tech(tech):
